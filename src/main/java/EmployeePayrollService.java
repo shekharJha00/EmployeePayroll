@@ -16,15 +16,14 @@ public class EmployeePayrollService {
         }
 
         public void readEmployeePayrollData(Scanner scanner) {
-            System.out.println("Enter Employee ID");
+            System.out.println("Enter Employee ID :");
             int id = scanner.nextInt();
-            System.out.println("Enter Employee Name");
+            System.out.println("Enter Employee Name :");
             String name = scanner.next();
-            System.out.println("Enter Employee Salary");
+            System.out.println("Enter Employee Salary :");
             int salary = scanner.nextInt();
             employeePayrollList.add(new EmployeePayrollData(id, name, salary));
         }
-
         private void writeEmployeePayrollData() {
             System.out.println("Employee Payroll\n" + employeePayrollList);
         }
