@@ -14,7 +14,13 @@ public class EmployeePayrollServiceTest {
         EmployeePayrollService employeePayrollService= new EmployeePayrollService(Arrays.asList(payrollData));
         employeePayrollService.writeEmployeePayrollData(EmployeePayrollService.IOService.FILE_IO);
         employeePayrollService.printData(EmployeePayrollService.IOService.FILE_IO);
-        int entries = employeePayrollService.countEntries(EmployeePayrollService.IOService.FILE_IO);
+        long entries = employeePayrollService.countEntries(EmployeePayrollService.IOService.FILE_IO);
+        Assert.assertEquals(4, entries);
+    }
+    @Test
+    public void givenFileShouldMatchEmployeeCount() {
+        EmployeePayrollService employeePayrollService = new EmployeePayrollService();
+        long entries = employeePayrollService.countEntries(EmployeePayrollService.IOService.FILE_IO);
         Assert.assertEquals(4, entries);
     }
 }
