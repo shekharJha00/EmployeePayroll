@@ -6,6 +6,11 @@ import java.util.List;
 import java.util.Scanner;
 
 public class EmployeePayrollService {
+    public EmployeePayrollService() {
+
+        employeePayrollList = null;
+    }
+
     public void printData() {
         try {
             Files.lines(new File(EmployeePayrollFileIO.PAYROLL_FILE).toPath()).forEach(System.out::println);
