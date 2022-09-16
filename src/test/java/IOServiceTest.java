@@ -38,5 +38,6 @@ public class IOServiceTest {
         Files.newDirectoryStream(pathFile).forEach(System.out::println);
         Files.newDirectoryStream(pathFile, path -> path.toFile().isFile() && path.toString().startsWith("temp")).forEach(System.out::println);
     }
+
 }
 
