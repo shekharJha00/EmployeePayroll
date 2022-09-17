@@ -3,15 +3,13 @@ import java.sql.*;
 
 public class JDBCOperations {
     static Connection con;
-
+    static Statement statement;
+    static ResultSet rs;
     public static void main(String[] args) throws Exception {
 
-        PreparedStatement prepareStatement = null;
-        ResultSet rs = null;
 
-        String qry = "select * from employee_payroll where start between Cast('2020-01-01' as date) and date (now())";
+        String qry = "select avg(basic_pay), sum(basic_pay), min(basic_pay), max(basic_pay) from employee_payroll where gender = 'F' group by gender; ";
         try {
-            Class.forName("com.mysql.jdbc.Driver");
 
             System.out.println("Driver Class Loaded");
 
@@ -19,35 +17,19 @@ public class JDBCOperations {
 
             System.out.println("Connection Establish with db server");
 
-            prepareStatement = con.prepareStatement(qry);
+            statement = con.createStatement();
             System.out.println("Data Update");
 
-            rs = prepareStatement.executeQuery();
+            rs = statement.executeQuery(qry);
 
             while (rs.next()) {
-                int id = rs.getInt(1);
-                String name = rs.getString(2);
-                long phone_number = rs.getLong(3);
-                String address = rs.getString(4);
-                String gender = rs.getString(5);
-                double basic_pay = rs.getDouble(6);
-                double deductions = rs.getDouble(7);
-                double taxable_pay = rs.getDouble(8);
-                double tax = rs.getDouble(9);
-                double met_pay = rs.getDouble(10);
-                Date state = rs.getDate(11);
-
-                System.out.println("EmpId :-" + id + "  " + "EmpName :- " + name + " " + "Emp_PhoneNo. :-"
-                        + phone_number + " " + "EmpAddress :- " + address + " " + "Gender :- " + gender + " "
-                        + "Basic_Pay " + basic_pay + " " + " Deduction :- " + deductions + " " + "Taxable_pay :- "
-                        + taxable_pay + " " + "Tax :-" + tax + " " + "Met_Pay :- " + met_pay + " " + "Date :-" + state);
+                double sum = rs.getDouble(1);
+                System.out.println("average of basic_pay : " + sum);
             }
 
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
-        }
-
-        finally {
+        } finally {
             if (rs != null) {
                 try {
                     rs.close();
@@ -56,9 +38,9 @@ public class JDBCOperations {
                 }
 
             }
-            if (prepareStatement != null) {
+            if (statement != null) {
                 try {
-                    prepareStatement.close();
+                    statement.close();
 
                 } catch (SQLException e) {
                     e.printStackTrace();
@@ -75,10 +57,7 @@ public class JDBCOperations {
             }
             System.out.println("Closed All Resources");
         }
-
     }
 
 }
-
-
 
