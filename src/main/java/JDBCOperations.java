@@ -4,77 +4,48 @@ import java.sql.*;
 public class JDBCOperations {
     public static void main(String[] args) {
 
-            String jdbcURL = "jdbc:mysql://localhost:3306/payroll_service?useSSL=false";
-            String userName = "root";
-            String password = "eGain@123";
-            Statement stmt = null;
-            Connection con = null;
-            ResultSet rs = null;
+        Connection con = null;
+        Statement stmt = null;
+        String qry = "update employee_payroll set basic_pay=3000000.00 where name='Shekhar'";
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
 
-            String qry = "select * from employee_payroll";
-            try {
-                Class.forName("com.mysql.jdbc.Driver");
-                System.out.println("Driver Class Loaded");
+            System.out.println("Driver Class Loaded");
 
-                con = DriverManager.getConnection(jdbcURL, userName, password);
-                System.out.println("Connection Establish with db server");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306?user=root&password=1234");
 
-                stmt = con.createStatement();
+            System.out.println("Connection Establish with db server");
 
-                rs = stmt.executeQuery(qry);
+            stmt = con.createStatement();
+            System.out.println("Platform Created");
 
-                System.err.println("id-> " + "EmployeesName-> " + "mobileNumber-> " + "address-> " + "gender-> " + " basic_pay-> " + "deductions-> " + "taxable_pay-> " + "tax-> " + "net_pay-> "
-                        + "start");
+            stmt.executeUpdate(qry);
+            System.out.println("Data Update");
 
-                while (rs.next()) {
-                    int id = rs.getInt("EmpId");
-                    String EmployeesName = rs.getString(2);
-                    long mobileNumber = rs.getLong(3);
-                    String address = rs.getString(4);
-                    String gender = rs.getString(5);
-                    double basic_pay = rs.getDouble(6);
-                    double deductions = rs.getDouble(7);
-                    double taxable_pay = rs.getDouble(8);
-                    double tax = rs.getDouble(9);
-                    double net_pay = rs.getDouble(10);
-                    Date start = rs.getDate(11);
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
 
-                    System.out.println();
-
-                    System.out.println(id + "->" + EmployeesName + "->" + mobileNumber + "->" + address + "->"
-                            + "->" + gender + "->" + basic_pay + "->" + deductions + " ->" + taxable_pay + "->" + tax + "->"
-                            + net_pay + "->" + start);
+        finally {
+            if (stmt != null) {
+                try {
+                    stmt.close();
+                    System.out.println("Closed All Resources");
+                } catch (SQLException e) {
+                    e.printStackTrace();
                 }
 
-            } catch (ClassNotFoundException | SQLException e) {
-                e.printStackTrace();
-            } finally {
-                if (rs != null) {
-                    try {
-                        rs.close();
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
-
-                }
-                if (stmt != null) {
-                    try {
-                        stmt.close();
-
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
-
-                }
-                if (con != null) {
-                    try {
-                        con.close();
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
-
-                }
             }
+            if (con != null) {
+                try {
+                    con.close();
+                    System.out.println("Closed All Resources");
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }
     }
 }
 
